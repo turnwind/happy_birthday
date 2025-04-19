@@ -28,7 +28,7 @@ fork 本项目，修改 `2025黑客爱心.html` 文件，将里面的内容替�
 
 - Netlify 部署（国内用户推荐，不被墙）
 
-   [![Deploy with NEtlify](https://www.netlify.com/img/deploy/button.svg)](https://github.com/turnwind/happy_birthday)
+   [![Deploy with NEtlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/turnwind/happy_birthday)
 
 ## 预览
 
