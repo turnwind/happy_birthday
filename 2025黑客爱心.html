@@ -20,6 +20,78 @@
       justify-content: center;
       align-items: center;
     }
+    
+    /* 开始界面样式 */
+    .startSign {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #ff437b;
+    }
+    
+    .startSign .two {
+      font-size: 1.2rem;
+      margin: 20px 0;
+      text-align: center;
+    }
+    
+    .startSign .button {
+      cursor: pointer;
+      padding: 10px 20px;
+      background-color: #ff437b;
+      color: white;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+    }
+    
+    .startSign .button:hover {
+      transform: scale(1.05);
+      background-color: #ff6b9d;
+    }
+    
+    /* 播放/暂停按钮样式 */
+    .play-pause {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: rgba(255, 67, 123, 0.7);
+      border: none;
+      cursor: pointer;
+      z-index: 100;
+      display: none;
+    }
+    
+    .play-pause::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 8px 0 8px 12px;
+      border-color: transparent transparent transparent white;
+      transform: translate(-40%, -50%);
+    }
+    
+    .play-pause.paused::before {
+      width: 12px;
+      height: 12px;
+      border: none;
+      background: white;
+      transform: translate(-50%, -50%);
+    }
 
     /* 初始状态：元素不可见（通过透明度） */
     #jsi-cherry-container {
@@ -90,6 +162,27 @@
 
 
 <body>
+  <!-- 全局变量脚本 -->
+  <script>
+    // 创建全局变量来跟踪动画是否开始
+    var isAnimationStarted = false;
+  </script>
+  
+  <!-- 音频元素 -->
+  <audio id="bgMusic" loop>
+    <source src="Maple暖枫 - 风居海铃.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+  
+  <!-- 播放/暂停按钮 -->
+  <button id="playPauseButton" class="play-pause"></button>
+  
+  <!-- 开始界面 -->
+  <div class="startSign">
+    <p class="two">温馨提醒：佩戴耳机并播放音乐可获得最佳体验哦😊</p>
+    <!-- 开始按钮 -->
+    <p id="startButton" class="two button">准备好了，我们开始吧！</p>
+  </div>
 
   <canvas id="canvas"></canvas>
   <canvas style="position:absolute;width:100%;height:100%;" class="canvas"></canvas>
@@ -113,10 +206,52 @@
     <div id="input">❤一定要天天开心哟！</div>
   </div>
   <script>
-    setTimeout(function () {
-      document.getElementById('jsi-cherry-container').classList.add('visible');
-    }, 10000); // 10秒后执行
+    // 等待页面加载完成
+    document.addEventListener('DOMContentLoaded', function() {
+      var bgMusic = document.getElementById('bgMusic');
+      var playPauseButton = document.getElementById('playPauseButton');
+      var startButton = document.getElementById('startButton');
+      var startSign = document.querySelector('.startSign');
+      
+      // 点击开始按钮
+      startButton.addEventListener('click', function() {
+        // 设置全局变量为true，表示动画已开始
+        isAnimationStarted = true;
+        
+        // 隐藏开始界面
+        startSign.style.display = 'none';
+        // 显示播放/暂停按钮
+        playPauseButton.style.display = 'block';
+        // 播放音乐
+        bgMusic.play().catch(function(error) {
+          console.log('播放失败:', error);
+        });
+        
+        // 在点击开始按钮后执行S.init()
+        S.init();
+        
+        // 10秒后显示爱心
+        setTimeout(function () {
+          document.getElementById('jsi-cherry-container').classList.add('visible');
+        }, 10000);
+        
+        
+
+      });
+      
+      // 播放/暂停按钮点击事件
+      playPauseButton.addEventListener('click', function() {
+        if (bgMusic.paused) {
+          bgMusic.play();
+          playPauseButton.classList.remove('paused');
+        } else {
+          bgMusic.pause();
+          playPauseButton.classList.add('paused');
+        }
+      });
+    });
   </script>
+
 
   <script type="text/javascript">
     var canvas = document.getElementById('canvas');
@@ -189,7 +324,7 @@
         if (i !== -1) {
           S.UI.simulate(decodeURI(action).substring(i + 3));
         } else {
-          S.UI.simulate('|#countdown 3|亲爱的|雍美玲|生日快乐|');
+          S.UI.simulate('|#countdown 3|亲爱的|雍美玲|生日快乐！|');
         }
 
         S.Drawing.loop(function () {
@@ -833,14 +968,7 @@
       }
     }());
 
-
-    S.init();
-
-  </script>
-
-
-  <script>
-
+    
     var settings = {
       particles: {
         length: 999, // 爱心数量
