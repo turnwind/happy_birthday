@@ -12,7 +12,7 @@
 
 ## 使用方法
 
-fork 本项目，修改 `2025黑客爱心.html` 文件，将里面的内容替换为你自己的内容，然后在 github pages 或者其它一些托管网站上部署(如 netlify)即可。
+fork 本项目，修改 `index.html` 文件，将里面的内容替换为你自己的内容，然后在 github pages 或者其它一些托管网站上部署(如 netlify)即可。
 
 ### 需要修改的内容
 
@@ -24,7 +24,7 @@ fork 本项目，修改 `2025黑客爱心.html` 文件，将里面的内容替�
 
 - Vercel 部署
 
-   [![Deploy with Vercel](https://vercel.com/button)](https://github.com/turnwind/happy_birthday)
+   [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/turnwind/happy_birthday)
 
 - Netlify 部署（国内用户推荐，不被墙）
 
